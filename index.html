@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>先生居場所入力</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <h1>先生居場所入力</h1>
+  <label>先生名：<input type="text" id="teacher"></label><br>
+  <label>部屋名：
+    <select id="room">
+      <option value="職員室">職員室</option>
+      <option value="授業中">授業中</option>
+      <option value="会議室">会議室</option>
+    </select>
+  </label><br>
+  <label>コメント：<input type="text" id="comment" placeholder="例：外出中・出張など"></label><br>
+  <button id="submit">確定</button>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/a/macros/ict.shimanet.ed.jp/s/AKfycbzXClOUdoX8Y5IuhR35Uv-VXpjVa1IBJsJ18BZnw3yXSM1pFSBcQi1eZ-UNa1PtqlE/exec';
+
+    document.getElementById('submit').addEventListener('click', () => {
+      const teacher = document.getElementById('teacher').value;
+      const room = document.getElementById('room').value;
+      const comment = document.getElementById('comment').value;
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ teacher, room, comment })
+      })
+      .then(res => res.text())
+      .then(txt => alert('送信しました！'));
+    });
+  </script>
+</body>
+</html>
+
