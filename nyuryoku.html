@@ -1,0 +1,43 @@
+<body>
+  <h1>先生の居場所一覧</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>先生名</th>
+        <th>場所</th>
+        <th>更新日時</th>
+        <th>コメント</th>
+      </tr>
+    </thead>
+    <tbody id="data-body">
+      <!-- ここにJSで行を追加します -->
+    </tbody>
+  </table>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    // GASのdoGet URLをここにコピペ
+    const GET_URL = 'https://script.google.com/a/macros/ict.shimanet.ed.jp/s/AKfycbw1SFZXTmWzSeAsdZcjZkPO1XxM-B2R0l9AVw4-1QHLPbwB-x5db3GHNDMWo8gsRAxc/exec';
+
+    // LINE初期化（liffIdは自分のものに置き換える）
+    liff.init({ liffId: '2008097131-G62ZjdXZ' }).then(() => {
+      // 取得してテーブルに表示
+      fetch(GET_URL)
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById('data-body');
+          tbody.innerHTML = '';
+          data.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${row.teacher}</td>
+              <td>${row.room}</td>
+              <td>${row.updated}</td>
+              <td>${row.comment}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        });
+    });
+  </script>
+</body>
